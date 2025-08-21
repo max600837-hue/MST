@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add daitels</title>
+    <link rel="stylesheet" href="mst.css">
+</head>
+<body>
+    <center><img src="mst.svg" width="450px"></center>
+
+
+<form method="POST" name="google-sheet" action="https://forms.gle/1xzNs4P5mxjr91LP6">
+    <label>Name:</label><input type="text" name="Name" placeholder="Enter Your Name"><br>
+    <label>Password:</label><input type="text" name="Password" placeholder="Enter Your Password"><br>
+    <label>Email:</label><input type="text" name="Email" placeholder="Enter Your Email"><br>
+    <label>Phone:</label><input type="text" name="Phone" placeholder="Enter Your Phone"><br>
+    <label>Aadhar No:</label><input type="text" name="Aadhar" placeholder="Enter Your Aadhar No"><br>
+    <label>PAN No:</label><input type="text" name="Pan" placeholder="Enter Your Pan No"><br>
+    <label>Wallet Adderss:</label><input type="text" name="Wallet" placeholder="Enter Your Wallet Address"><br>
+    <label>Date:</label><input type="text" name="Date" placeholder="Enter Your Joinning Date"><br>
+    <label>Referral Link:</label><input type="text" name="R_link" placeholder="Enter Your Referral Link"><br>
+    <label>Amount:</label><input type="text" name="Amount" placeholder="Enter Paid Amount"><br>
+    <center><button type="submit" class="btn" name="submit"><b>Uplode</button></center>
+</form>
+
+<script>
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby7fJFI0cF6npCVenZD7rY0I9Ppj0dC8TYgVwdAGE_ypOLJco3k0vsvsOsuepTb_LgvFw/exec'
+            const form = document.forms['google-sheet']
+          
+            form.addEventListener('submit', e => {
+              e.preventDefault()
+              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
+                .catch(error => console.error('Error!', error.message))
+            })
+          </script>
+
+
+</body>
+</html>
